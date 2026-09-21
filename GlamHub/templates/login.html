@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar sesión - Glam Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#f7f2f8;
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:90vh;
+    padding:30px 15px;
+}
+
+.form-box{
+    background:rgba(255,255,255,0.85);
+    padding:40px;
+    border-radius:15px;
+    width:350px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.form-box h2{
+    color:#5c3d75;
+    margin-bottom:10px;
+}
+
+.form-box p{
+    color:#8a7f95;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+    border:1px solid #ddd;
+    outline:none;
+}
+
+input:focus{
+    border-color:#caa6d9;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    background:#f4a6c0;
+    border:none;
+    border-radius:25px;
+    color:white;
+    font-weight:500;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#ec8fb0;
+}
+
+.register-link{
+    display:inline-block;
+    margin-top:18px;
+    color:#9c8ac1;
+    font-size:13px;
+    text-decoration:none;
+}
+
+.register-link:hover{
+    color:#5c3d75;
+}
+</style>
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="container">
+    <div class="form-box">
+        <h2>Iniciar sesión</h2>
+        <p>Ingresa para continuar en Glam Hub</p>
+
+        <form action="{{ url_for('login') }}" method="POST" novalidate>
+            <input type="email" name="correo" placeholder="Correo electrónico" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit" class="btn">Ingresar</button>
+        </form>
+
+        <a class="register-link" href="{{ url_for('registro') }}">¿No tienes una cuenta? Regístrate</a>
+    </div>
+</div>
+
+</body>
+</html>

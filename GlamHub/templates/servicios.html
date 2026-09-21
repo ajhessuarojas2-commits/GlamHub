@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios | Glam Hub</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f7f2f8;
+            color: #5c3d75;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #5c3d75;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #8b7d95;
+            font-size: 16px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(92, 61, 117, 0.1);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(92, 61, 117, 0.15);
+        }
+
+        .service-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .service-card h2 {
+            color: #5c3d75;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            color: #8b7d95;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .service-price {
+            color: #b497c9;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .btn-service {
+            background: #f4a6c0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-service:hover {
+            background: #ec8fb0;
+        }
+
+        .cart-button {
+            display: inline-block;
+            margin: 25px 0;
+            background: #9c8ac1;
+            color: white;
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 20px;
+        }
+
+        .service-tag {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: #f1e5f5;
+            color: #9c8ac1;
+            font-size: 11px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <div class="header">
+            <h1>Nuestros Servicios</h1>
+            <p>Servicios básicos y tratamientos especiales para cuidar tu belleza</p>
+            <a class="cart-button" href="{{ url_for('carrito') }}">🛒 Ver carrito ({{ carrito|length }})</a>
+        </div>
+
+        <div class="services-grid">
+            {% for servicio in servicios %}
+                <div class="service-card">
+                    <div class="service-icon">
+                        {% if 'Corte' in servicio.Nombre or 'Peinado' in servicio.Nombre %}💇
+                        {% elif 'Manicure' in servicio.Nombre or 'Uñas' in servicio.Nombre %}💅
+                        {% elif 'Pedicure' in servicio.Nombre %}🦶
+                        {% elif 'Maquillaje' in servicio.Nombre %}💄
+                        {% elif 'Pestañas' in servicio.Nombre or 'Cejas' in servicio.Nombre %}👁️
+                        {% elif 'Facial' in servicio.Nombre or 'Spa' in servicio.Nombre %}✨
+                        {% else %}🌸{% endif %}
+                    </div>
+                    <span class="service-tag">Servicio de belleza</span>
+                    <h2>{{ servicio.Nombre }}</h2>
+                    <p>{{ servicio.Descripcion }}</p>
+                    <div class="service-price">${{ '{:,.0f}'.format(servicio.Precio).replace(',', '.') }} COP</div>
+                    <form method="POST" action="{{ url_for('agregar_al_carrito', id=servicio.IdServicio) }}">
+                        <button class="btn-service" type="submit">🛒 Agregar</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>No hay servicios disponibles en este momento.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

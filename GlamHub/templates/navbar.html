@@ -1,0 +1,336 @@
+<!-- NAVBAR REUTILIZABLE -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 40px;
+        background: #f7f2f8;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 30px;
+    }
+
+    .logo {
+        font-weight: 700;
+        color: #b497c9;
+        font-size: 20px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+        align-items: center;
+        flex: 1;
+    }
+
+    .nav-links li a {
+        color: #7a6d85;
+        cursor: pointer;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        font-size: 14px;
+    }
+
+    .nav-links li a:hover {
+        color: #b497c9;
+        font-weight: 500;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 25px;
+        padding: 8px 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 250px;
+        border: 1px solid #e0d4e8;
+    }
+
+    .search-container input {
+        border: none;
+        outline: none;
+        flex: 1;
+        font-size: 14px;
+        color: #7a6d85;
+        padding: 5px;
+    }
+
+    .search-container input::placeholder {
+        color: #c9b5d4;
+    }
+
+    .search-container button {
+        background: none;
+        border: none;
+        color: #b497c9;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 0 5px;
+    }
+
+    .search-container button:hover {
+        color: #9680b3;
+    }
+
+    .nav-actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .cart-link {
+        color: #5c3d75;
+        text-decoration: none;
+        font-size: 20px;
+        position: relative;
+    }
+
+    .cart-count {
+        position: absolute;
+        top: -10px;
+        right: -12px;
+        min-width: 18px;
+        padding: 2px 5px;
+        border-radius: 10px;
+        background: #df7188;
+        color: white;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .btn-nav {
+        background: #caa6d9;
+        color: white;
+        padding: 8px 18px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+        transition: background 0.3s ease;
+    }
+
+    .btn-nav:hover {
+        background: #b497c9;
+    }
+
+    .user-profile {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: #caa6d9;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        nav {
+            flex-wrap: wrap;
+            padding: 10px 20px;
+        }
+
+        .navbar-container {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-links {
+            gap: 15px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .search-container {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .logo {
+            font-size: 18px;
+        }
+    }
+</style>
+
+<nav>
+    <div class="navbar-container">
+        <!-- LOGO -->
+        <a href="/" class="logo">💄 Glam Hub</a>
+
+        <!-- MENÚ DE NAVEGACIÓN -->
+        <ul class="nav-links">
+            <li><a href="{{ url_for('inicio') }}">Inicio</a></li>
+            <li><a href="{{ url_for('servicios') }}">Servicios</a></li>
+            <li><a href="{{ url_for('usuarios') }}">Clientes</a></li>
+            <li><a href="{{ url_for('citas') }}">Citas</a></li>
+        </ul>
+
+        <!-- BARRA DE BÚSQUEDA -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar servicios, clientes...">
+            <button id="searchBtn" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <!-- ACCIONES DERECHA -->
+        <div class="nav-actions">
+            <a class="cart-link" href="{{ url_for('carrito') }}" title="Ver carrito">
+                <i class="fas fa-shopping-bag"></i>
+                {% if session.get('carrito') %}<span class="cart-count">{{ session.get('carrito')|length }}</span>{% endif %}
+            </a>
+            {% if session.get('usuario_id') %}
+                <a class="btn-nav" href="{{ url_for('perfil') }}">Mi perfil</a>
+                <a class="btn-nav" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                <a class="user-profile" href="{{ url_for('perfil') }}" title="Mi perfil">👤</a>
+            {% else %}
+                <a class="btn-nav" href="{{ url_for('login') }}">Iniciar sesión</a>
+                <a class="btn-nav" href="{{ url_for('registro') }}">Registrar</a>
+                <a class="user-profile" href="{{ url_for('login') }}" title="Iniciar sesión">👤</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div id="flash-messages"
+     data-messages="{{ get_flashed_messages() | tojson | forceescape }}"
+     hidden></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const flashMessages = document.getElementById('flash-messages');
+
+        function mostrarAlerta(icon, title, text) {
+            return Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                confirmButtonColor: '#caa6d9'
+            });
+        }
+
+        if (flashMessages) {
+            JSON.parse(flashMessages.dataset.messages || '[]').forEach(function(message) {
+                const successful = message.includes('exitoso') ||
+                    message.includes('correctamente') ||
+                    message.includes('Bienvenid') ||
+                    message.includes('cerrada');
+                mostrarAlerta(
+                    successful ? 'success' : 'error',
+                    successful ? '¡Listo!' : 'Atención',
+                    message
+                );
+            });
+        }
+
+        document.querySelectorAll('form').forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                const nombre = form.querySelector('[name="nombre"]');
+                const correo = form.querySelector('[name="correo"]');
+                const password = form.querySelector('[name="password"]');
+                const telefono = form.querySelector('[name="telefono"]');
+
+                if ((nombre && !nombre.value.trim()) || (correo && !correo.value.trim()) || (password && !password.value)) {
+                    event.preventDefault();
+                    mostrarAlerta('warning', 'Campos obligatorios', 'Completa todos los campos requeridos.');
+                    return;
+                }
+
+                if (nombre && !/^[a-zA-ZÁÉÍÓÚáéíóúÑñ ]{3,60}$/.test(nombre.value.trim())) {
+                    event.preventDefault();
+                    mostrarAlerta('warning', 'Nombre inválido', 'El nombre debe tener entre 3 y 60 letras.');
+                    return;
+                }
+
+                if (correo && !correo.validity.valid) {
+                    event.preventDefault();
+                    mostrarAlerta('warning', 'Correo inválido', 'Ingresa un correo electrónico válido.');
+                    return;
+                }
+
+                if (password && !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}/.test(password.value)) {
+                    event.preventDefault();
+                    mostrarAlerta('warning', 'Contraseña insuficiente', 'Usa al menos 8 caracteres, una mayúscula, una minúscula y un número.');
+                    return;
+                }
+
+                if (telefono && telefono.value.trim() && !/^\+?[0-9 ]{7,15}$/.test(telefono.value.trim())) {
+                    event.preventDefault();
+                    mostrarAlerta('warning', 'Teléfono inválido', 'El teléfono debe tener entre 7 y 15 números.');
+                    return;
+                }
+
+                if (form.classList.contains('delete-form')) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¿Eliminar usuario?',
+                        text: 'Esta acción no se puede deshacer.',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonColor: '#df7188',
+                        cancelButtonColor: '#9c8ac1'
+                    }).then(function(result) {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                }
+            });
+        });
+
+        if (searchBtn && searchInput) {
+            searchBtn.addEventListener('click', function() {
+                const searchValue = searchInput.value.trim();
+                if (!searchValue) {
+                    mostrarAlerta('info', 'Buscar', 'Escribe algo para iniciar la búsqueda.');
+                }
+            });
+        }
+
+        document.querySelectorAll('button.btn-service, button.btn-view, button.btn-cancel, button.btn-main').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                if (button.classList.contains('btn-cancel')) {
+                    event.preventDefault();
+                    mostrarAlerta('info', 'Cancelar cita', 'La cancelación de citas estará disponible próximamente.');
+                } else if (button.classList.contains('btn-service') || button.classList.contains('btn-main')) {
+                    event.preventDefault();
+                    mostrarAlerta('info', 'Agendar cita', 'La agenda de citas estará disponible próximamente.');
+                } else if (button.classList.contains('btn-view')) {
+                    event.preventDefault();
+                    mostrarAlerta('info', 'Ver cita', 'El detalle de la cita estará disponible próximamente.');
+                }
+            });
+        });
+    });
+</script>

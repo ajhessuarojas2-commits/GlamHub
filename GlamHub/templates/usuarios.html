@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Usuarios | Glam Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#f7f2f8;
+    color:#5c3d75;
+}
+
+/* NAVBAR INCLUIDA DESDE navbar.html */
+
+/* CONTENEDOR */
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:50px auto;
+}
+
+/* ENCABEZADO */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    font-size:32px;
+    color:#5c3d75;
+}
+
+.header p{
+    color:#8b7d95;
+    margin-top:5px;
+}
+
+/* BOTON AGREGAR */
+
+.btn-add{
+    background:#f4a6c0;
+    color:white;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:25px;
+    transition:0.3s;
+}
+
+.btn-add:hover{
+    background:#ec8fb0;
+}
+
+/* TABLA */
+
+.table-container{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 8px 25px rgba(92,61,117,0.10);
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f1e5f5;
+}
+
+th{
+    padding:15px;
+    text-align:left;
+    color:#5c3d75;
+    font-weight:600;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #eee5f0;
+    color:#7a6d85;
+}
+
+tbody tr:hover{
+    background:#fcf8fd;
+}
+
+/* BOTONES */
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    text-decoration:none;
+    border:none;
+    padding:7px 13px;
+    border-radius:15px;
+    color:white;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.btn-view{
+    background:#9c8ac1;
+}
+
+.btn-edit{
+    background:#d4a373;
+}
+
+.btn-delete{
+    background:#df7188;
+}
+
+.btn:hover{
+    opacity:0.85;
+}
+
+/* MENSAJES */
+
+.alert{
+    padding:14px 20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    background:#fce4ec;
+    color:#9b5268;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    nav{
+        padding:15px 20px;
+    }
+
+    nav ul{
+        gap:10px;
+    }
+
+    .header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .header h1{
+        font-size:25px;
+    }
+
+    th, td{
+        padding:10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<!-- CONTENIDO -->
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+
+            <h1>👥 Lista de Usuarios</h1>
+
+            <p>
+                Administra los usuarios registrados en Glam Hub
+            </p>
+
+        </div>
+
+        <a href="{{ url_for('registro') }}" class="btn-add">
+            + Registrar Usuario
+        </a>
+
+    </div>
+
+
+    <!-- MENSAJES -->
+
+    <!-- TABLA -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Nombre</th>
+
+                    <th>Correo</th>
+
+                    <th>Teléfono</th>
+
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for usuario in usuarios %}
+
+                <tr>
+
+                    <td>
+                        {{ usuario.IdUsuario }}
+                    </td>
+
+                    <td>
+                        {{ usuario.NombreUsuario }}
+                    </td>
+
+                    <td>
+                        {{ usuario.CorreoUsuario }}
+                    </td>
+
+                    <td>
+                        {{ usuario.TelefonoUsuario }}
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <!-- VER -->
+
+                            <a
+                                href="{{ url_for('ver_usuario', id=usuario.IdUsuario) }}"
+                                class="btn btn-view">
+                                👁 Ver
+                            </a>
+
+
+                            <!-- EDITAR -->
+
+                            <a
+                                href="{{ url_for('editar_usuario', id=usuario.IdUsuario) }}"
+                                class="btn btn-edit">
+                                ✏️ Editar
+                            </a>
+
+
+                            <!-- ELIMINAR -->
+
+                            <form
+                                action="{{ url_for('eliminar_usuario', id=usuario.IdUsuario) }}"
+                                method="POST"
+                                class="delete-form"
+                                style="display:inline;">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-delete">
+                                    🗑 Eliminar
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="5" style="text-align:center; padding:30px;">
+
+                        No hay usuarios registrados.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```

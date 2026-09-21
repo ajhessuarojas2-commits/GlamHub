@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas | Glam Hub</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f7f2f8;
+            color: #5c3d75;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #5c3d75;
+        }
+
+        .header p {
+            color: #8b7d95;
+            margin-top: 5px;
+        }
+
+        .btn-new {
+            background: #f4a6c0;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            transition: 0.3s;
+        }
+
+        .btn-new:hover {
+            background: #ec8fb0;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(92, 61, 117, 0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f1e5f5;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            color: #5c3d75;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee5f0;
+            color: #7a6d85;
+        }
+
+        tbody tr:hover {
+            background: #fcf8fd;
+        }
+
+        .status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-confirmada {
+            background: #d4f1d4;
+            color: #2d5a2d;
+        }
+
+        .status-pendiente {
+            background: #fff4e6;
+            color: #995a00;
+        }
+
+        .status-cancelada {
+            background: #ffe6e6;
+            color: #8b0000;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            text-decoration: none;
+            border: none;
+            padding: 7px 13px;
+            border-radius: 15px;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-view {
+            background: #9c8ac1;
+        }
+
+        .btn-cancel {
+            background: #df7188;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>📅 Mis Citas</h1>
+                <p>Gestiona tus citas de belleza</p>
+            </div>
+            <a href="{{ url_for('registro') }}" class="btn-new">+ Nueva Cita</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Servicio</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí irán las citas desde la base de datos -->
+                    <tr>
+                        <td>#001</td>
+                        <td>María García</td>
+                        <td>Manicura</td>
+                        <td>15/08/2026</td>
+                        <td>10:00 AM</td>
+                        <td><span class="status status-confirmada">Confirmada</span></td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn btn-view">Ver</button>
+                                <button class="btn btn-cancel">Cancelar</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Editar Usuario | Glam Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap"
+      rel="stylesheet">
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f7f2f8;
+}
+
+.container{
+    width:90%;
+    max-width:600px;
+    margin:60px auto;
+}
+
+.card{
+    background:white;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 8px 25px rgba(92,61,117,.12);
+}
+
+h1{
+    color:#5c3d75;
+    margin-bottom:10px;
+}
+
+p{
+    color:#8b7d95;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+    color:#5c3d75;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #e2d5e8;
+    border-radius:12px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#caa6d9;
+}
+
+.buttons{
+    margin-top:25px;
+    display:flex;
+    gap:10px;
+}
+
+button,
+a{
+    border:none;
+    padding:11px 20px;
+    border-radius:20px;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+button{
+    background:#f4a6c0;
+    color:white;
+}
+
+a{
+    background:#ddd1e2;
+    color:#5c3d75;
+}
+
+</style>
+
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="container">
+
+<div class="card">
+
+<h1>✏️ Editar Usuario</h1>
+
+<p>
+Actualiza la información del usuario.
+</p>
+
+<form method="POST" novalidate>
+
+<label>Nombre</label>
+
+<input
+    type="text"
+    name="nombre"
+    value="{{ usuario.NombreUsuario }}"
+    required
+>
+
+
+<label>Correo</label>
+
+<input
+    type="email"
+    name="correo"
+    value="{{ usuario.CorreoUsuario }}"
+    required
+>
+
+
+<label>Teléfono</label>
+
+<input
+    type="text"
+    name="telefono"
+    value="{{ usuario.TelefonoUsuario }}"
+>
+
+
+<div class="buttons">
+
+<button type="submit">
+    💾 Guardar cambios
+</button>
+
+<a href="{{ url_for('usuarios') }}">
+    Cancelar
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+```

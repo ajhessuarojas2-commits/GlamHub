@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi perfil | Glam Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:#f7f2f8;
+    color:#5c3d75;
+}
+
+.container{
+    width:90%;
+    max-width:1050px;
+    margin:45px auto;
+}
+
+.profile-layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:25px;
+}
+
+.panel{
+    background:white;
+    padding:28px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(92,61,117,.1);
+}
+
+.profile-summary{
+    text-align:center;
+}
+
+.avatar{
+    width:130px;
+    height:130px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#f1e5f5;
+    border:5px solid #f4dce7;
+}
+
+.avatar-placeholder{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:48px;
+}
+
+.profile-summary h1{
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+.profile-summary p,
+.history-empty{
+    color:#8b7d95;
+    font-size:14px;
+}
+
+h2{
+    margin-bottom:20px;
+    color:#5c3d75;
+}
+
+label{
+    display:block;
+    margin:14px 0 6px;
+    color:#5c3d75;
+    font-size:14px;
+}
+
+input{
+    width:100%;
+    padding:11px;
+    border:1px solid #e2d5e8;
+    border-radius:10px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#caa6d9;
+}
+
+input[type="file"]{
+    padding:8px;
+    font-size:12px;
+}
+
+.btn{
+    border:none;
+    padding:11px 18px;
+    border-radius:20px;
+    background:#f4a6c0;
+    color:white;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+.btn:hover{
+    background:#ec8fb0;
+}
+
+.history{
+    margin-top:25px;
+}
+
+.history-list{
+    display:grid;
+    gap:12px;
+}
+
+.history-item{
+    padding:16px;
+    border-left:4px solid #caa6d9;
+    background:#faf7fc;
+    border-radius:8px;
+}
+
+.history-item strong{
+    display:block;
+    color:#5c3d75;
+}
+
+.history-item span,
+.history-item small{
+    display:block;
+    color:#8b7d95;
+    margin-top:4px;
+}
+
+@media(max-width:760px){
+    .profile-layout{
+        grid-template-columns:1fr;
+    }
+
+    .container{
+        margin:30px auto;
+    }
+}
+</style>
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="container">
+    <div class="profile-layout">
+        <section class="panel profile-summary">
+            {% if foto_url %}
+                <img class="avatar" src="{{ foto_url }}" alt="Foto de {{ usuario.NombreUsuario }}">
+            {% else %}
+                <div class="avatar avatar-placeholder" aria-label="Sin foto">👤</div>
+            {% endif %}
+            <h1>{{ usuario.NombreUsuario }}</h1>
+            <p>{{ usuario.CorreoUsuario }}</p>
+        </section>
+
+        <section class="panel">
+            <h2>Información personal</h2>
+            <form method="POST" enctype="multipart/form-data" novalidate>
+                <label for="nombre">Nombre completo</label>
+                <input id="nombre" type="text" name="nombre" value="{{ usuario.NombreUsuario }}" required>
+
+                <label for="correo">Correo electrónico</label>
+                <input id="correo" type="email" name="correo" value="{{ usuario.CorreoUsuario }}" required>
+
+                <label for="telefono">Teléfono</label>
+                <input id="telefono" type="text" name="telefono" value="{{ usuario.TelefonoUsuario or '' }}">
+
+                <label for="foto">Foto de usuario</label>
+                <input id="foto" type="file" name="foto" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+
+                <button class="btn" type="submit">Guardar cambios</button>
+            </form>
+        </section>
+    </div>
+
+    <section class="panel history">
+        <h2>Historial de servicios</h2>
+        {% if historial %}
+            <div class="history-list">
+                {% for item in historial %}
+                    <article class="history-item">
+                        <strong>{{ item.Servicio }}</strong>
+                        <span>Cita: {{ item.Cita }}</span>
+                        <small>{{ item.Comentario }}</small>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="history-empty">Todavía no tienes servicios registrados.</p>
+        {% endif %}
+    </section>
+</div>
+
+</body>
+</html>

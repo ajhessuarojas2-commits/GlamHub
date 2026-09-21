@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito | Glam Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+body{background:#f7f2f8;color:#5c3d75}
+.container{width:90%;max-width:900px;margin:45px auto}
+.panel{background:white;padding:30px;border-radius:18px;box-shadow:0 8px 25px rgba(92,61,117,.1)}
+h1{margin-bottom:25px}
+.item{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid #eee5f0}
+.item p,.empty{color:#8b7d95;font-size:14px;margin-top:5px}
+.price{white-space:nowrap;font-weight:700;color:#b497c9}
+.remove{border:0;border-radius:18px;padding:8px 12px;background:#df7188;color:white;cursor:pointer}
+.summary{display:flex;justify-content:space-between;align-items:center;margin-top:25px;font-size:20px;font-weight:700}
+.actions{display:flex;gap:12px;margin-top:25px}
+.action{border:0;border-radius:20px;padding:11px 18px;text-decoration:none;cursor:pointer;background:#f4a6c0;color:white}
+.secondary{background:#9c8ac1}
+@media(max-width:600px){.item{align-items:flex-start;flex-wrap:wrap}.summary{font-size:17px}}
+</style>
+</head>
+<body>
+{% include 'navbar.html' %}
+<main class="container">
+    <section class="panel">
+        <h1>🛒 Mi carrito</h1>
+        {% if carrito %}
+            {% for item in carrito %}
+                <div class="item">
+                    <div><strong>{{ item.nombre }}</strong><p>{{ item.descripcion }}</p></div>
+                    <span class="price">${{ '{:,.0f}'.format(item.precio).replace(',', '.') }} COP</span>
+                    <form method="POST" action="{{ url_for('eliminar_del_carrito', indice=loop.index0) }}">
+                        <button class="remove" type="submit">Eliminar</button>
+                    </form>
+                </div>
+            {% endfor %}
+            <div class="summary"><span>Total</span><span>${{ '{:,.0f}'.format(total).replace(',', '.') }} COP</span></div>
+            <div class="actions">
+                <a class="action secondary" href="{{ url_for('servicios') }}">Seguir comprando</a>
+                <form method="POST" action="{{ url_for('confirmar_pedido') }}"><button class="action" type="submit">Confirmar pedido</button></form>
+            </div>
+        {% else %}
+            <p class="empty">Tu carrito está vacío.</p>
+            <div class="actions"><a class="action" href="{{ url_for('servicios') }}">Ver servicios</a></div>
+        {% endif %}
+    </section>
+</main>
+</body>
+</html>
