@@ -1,0 +1,16 @@
+USE GlamHub;
+
+ALTER TABLE Cita
+	MODIFY IdCita INT NOT NULL AUTO_INCREMENT,
+	ADD COLUMN IdPedido INT NULL AFTER IdUsuario;
+
+ALTER TABLE Pedido
+	ADD COLUMN IdUsuario INT NULL AFTER IdPedido;
+
+ALTER TABLE Pedido
+	ADD CONSTRAINT fk_pedido_usuario FOREIGN KEY (IdUsuario)
+		REFERENCES Usuarios(IdUsuario);
+
+ALTER TABLE Cita
+	ADD CONSTRAINT fk_cita_pedido FOREIGN KEY (IdPedido)
+		REFERENCES Pedido(IdPedido) ON DELETE SET NULL;
