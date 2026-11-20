@@ -1,0 +1,14 @@
+### CONSULTAR PACIENTES
+GET http://localhost/api_pacientes/pacientes.php
+Accept: application/json
+
+### REGISTRAR PACIENTE
+POST http://localhost/api_pacientes/pacientes.php
+Content-Type: application/json
+
+{
+    "Id_Paciente": "001",
+    "Nombre": "Carlos",
+    "Apellido": "Fonseca",
+    "Contacto": "377928476"
+}
